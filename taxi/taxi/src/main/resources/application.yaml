@@ -1,0 +1,31 @@
+#spring.application.name=taxi
+
+spring:
+  application:
+    name: taxi
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taxiDb
+    username: postgres
+    password: 12345
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+secret:
+  key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+
+
+rabbitmq:
+  queue:
+    name: new-queue
+  exchange:
+    name: new-exchange
+  routing:
+    key:
+      name: routing-key
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
