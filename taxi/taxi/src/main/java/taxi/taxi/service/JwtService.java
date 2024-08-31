@@ -11,6 +11,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import taxi.taxi.model.User;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -24,15 +25,14 @@ public class JwtService {
     private String secretKey;
 
     @Getter
-    private long jwtExpiration = 60*60*1000;
-
+      private long jwtExpiration = 60*60*1000;
 
     // generic
     public Claims extractClaims(String token){
         return extractAllClaims(token);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User userDetails) {
         return generateToken(new HashMap<>(),userDetails);
     }
 
@@ -41,19 +41,19 @@ public class JwtService {
         return extractClaims(token).getSubject();
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, User userDetails) {
         return buildToken(extraClaims,userDetails,jwtExpiration);
     }
 
 
     private String buildToken(Map<String,Object> exteraClaims,
-                              UserDetails userDetails,
+                              User userDetails,
                               long expiration) {
 
         return Jwts.
                 builder().
                 setClaims(exteraClaims).
-                setSubject(userDetails.getUsername()).
+                setSubject(userDetails.getEmail()).
                 setIssuedAt(new Date(System.currentTimeMillis())).
                 setExpiration(new Date(System.currentTimeMillis()+expiration) ).
                 signWith(getSignInKey(), SignatureAlgorithm.HS256).
@@ -61,9 +61,9 @@ public class JwtService {
 
     }
 
-    public boolean isTokenValid(String token,UserDetails userDetails) {
+    public boolean isTokenValid(String token,User userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (username.equals(userDetails.getEmail())) && !isTokenExpired(token);
     }
 
     public boolean isTokenExpired(String token){

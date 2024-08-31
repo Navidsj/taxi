@@ -28,6 +28,11 @@ public class AuthenticationService {
         user.setName(input.getName());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setEmail(input.getEmail());
+        user.setPhoneNumber(input.getPhoneNumber());
+
+        if(userRepository.findByEmail(user.getEmail()).isPresent()){
+            return null;
+        }
 
         return userRepository.save(user);
     }

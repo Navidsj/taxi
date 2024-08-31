@@ -2,6 +2,7 @@ package taxi.taxi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 
 @Entity
@@ -23,8 +24,8 @@ public class Driver{
     @Column
     String licensePlateNumber;
 
-    @Column
-    Point location;
+    @Column(columnDefinition = "GEOMETRY")
+    Geometry location;
 
     @Column
     String status;

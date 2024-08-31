@@ -1,18 +1,15 @@
 package taxi.taxi.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "order")
 @Data
+@Table(name = "safarha")
 public class Order{
-
 
     @Id
     @SequenceGenerator(name = "OrderIdSeqGenerator", allocationSize = 1, sequenceName = "OrderIdSeq")
@@ -20,13 +17,7 @@ public class Order{
     private Long id;
 
     @Column
-    String serial;
-
-    @Column
     String status;
-
-    @Column
-    Date time;
 
     @Column
     int price;
@@ -35,15 +26,20 @@ public class Order{
     String vehicleType;
 
     @Column
-    int driverId;
+    Date time;
 
     @Column
-    int userId;
+    Long driverId;
 
     @Column
-    Geometry startLocation;
+    Long userId;
 
     @Column
-    Geometry endLocation;
+    Point startLocation;
+
+    @Column
+    Point endLocation;
 
 }
+
+
