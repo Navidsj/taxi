@@ -25,12 +25,17 @@ public class Driver{
     String licensePlateNumber;
 
     @Column(columnDefinition = "GEOMETRY")
-    Geometry location;
+    Point location;
 
     @Column
-    String status;
+    boolean status;
 
     @Column
     String vehicle;
+
+    @Transient
+    double lat;
+    @Transient
+    double lng;
 
 }

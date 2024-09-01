@@ -34,6 +34,9 @@ public class User implements UserDetails {
     @Column
     int balance;
 
+    @Column
+    long orderId;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

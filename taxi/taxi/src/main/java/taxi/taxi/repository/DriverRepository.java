@@ -14,7 +14,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
 
 
 
-    @Query(value = "SELECT * FROM driver WHERE ST_DWithin(location,location,1000)", nativeQuery = true)
-    ArrayList<Driver> findByDistinc(Point point);
+    @Query(value = "SELECT * FROM driver WHERE ST_DWithin(ST_Transform(ST_SetSRID(location, 4326), 3857), ST_Transform(ST_SetSRID(:point, 4326), 3857), 1000) AND status = false AND vehicle = :vehicle", nativeQuery = true)
+    ArrayList<Driver> findByDistinc(Point point,String vehicle);
 
 }

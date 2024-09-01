@@ -1,8 +1,11 @@
 package taxi.taxi.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import net.bytebuddy.implementation.bind.annotation.Default;
 import org.locationtech.jts.geom.Point;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Date;
 
@@ -17,7 +20,7 @@ public class Order{
     private Long id;
 
     @Column
-    String status;
+    String status = "not payed";
 
     @Column
     int price;

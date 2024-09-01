@@ -31,10 +31,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> register(@RequestBody String body) throws InterruptedException, JsonProcessingException {
-
-
-        RegisterUserDto registerUserDto = jacksonObjectMapper.readValue(body,RegisterUserDto.class);
+    public ResponseEntity<String> register(@RequestBody RegisterUserDto registerUserDto) throws InterruptedException, JsonProcessingException {
 
         User registerdUser = authenticationService.signup(registerUserDto);
 
@@ -43,14 +40,12 @@ public class AuthenticationController {
         }
 
         return ResponseEntity.ok(registerdUser.getName() + " jan account shoma sakhte shod.");
-
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> authenticate(@RequestBody String body) throws JsonProcessingException {
+    public ResponseEntity<LoginResponseDto> authenticate(@RequestBody LoginUserDto loginUserDto) throws JsonProcessingException {
 
 
-        LoginUserDto loginUserDto = jacksonObjectMapper.readValue(body,LoginUserDto.class);
         User authonticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authonticatedUser);
