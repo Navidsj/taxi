@@ -42,31 +42,15 @@ public class OrderController {
 
 
     @PostMapping("/new/order")
-    public ResponseEntity<String> newOrder(@RequestBody OrderDto orderDto, @RequestHeader("Authorization") String header) throws JsonProcessingException, BadRequestException {
+    public ResponseEntity<Object> newOrder(@RequestBody OrderDto orderDto, @RequestHeader("Authorization") String header) throws JsonProcessingException, BadRequestException {
 
         String token = header.substring(7);
         User currentUser = userRepository.findByEmail(jwtService.extractUsername(token)).orElseThrow(() -> new BadRequestException("User not found"));
 
-        rabbitMQProducer.sendReport("reportTest");
-
-        rabbitMQProducer.sendMessage("testeeee");
-
         return orderService.newOrder(currentUser,orderDto);
     }
 
-    @PostMapping("/new/driver")
-    public ResponseEntity<String> newDriver(@RequestBody Driver driver) throws JsonProcessingException {
 
-        GeometryFactory gf = new GeometryFactory();
-
-        driver.setLocation(gf.createPoint(new Coordinate(driver.getLat(),driver.getLng())));
-
-        driverRepository.save(driver);
-
-        System.out.println(driverRepository.findAll());
-
-        return ResponseEntity.ok("driver added");
-    }
 
 
 }

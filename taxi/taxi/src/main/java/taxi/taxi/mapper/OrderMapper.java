@@ -43,7 +43,6 @@ public class OrderMapper {
         orderResponseDto.setOrderId(order.getId());
         orderResponseDto.setStatus(order.getStatus());
         orderResponseDto.setPrice(order.getPrice());
-        orderResponseDto.setDriverId(order.getDriverId());
         orderResponseDto.setDriverName(driver.getName());
         orderResponseDto.setDriverPhoneNumber(driver.getPhoneNumber());
         orderResponseDto.setDriverLicensePlateNumber(driver.getLicensePlateNumber());

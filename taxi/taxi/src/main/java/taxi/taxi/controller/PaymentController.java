@@ -4,10 +4,7 @@ import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import taxi.taxi.model.Order;
 import taxi.taxi.model.User;
 import taxi.taxi.repository.OrderRepository;
@@ -31,7 +28,7 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @PostMapping("/payment")
+    @PutMapping("/payment")
     public ResponseEntity<String> payment( @RequestHeader("Authorization") String header) throws InterruptedException {
 
         String token = header.substring(7);
@@ -42,7 +39,7 @@ public class PaymentController {
 
         RLock payLock = redissonClient.getLock("lock");
 
-        boolean locked = payLock.tryLock(5,15, TimeUnit.SECONDS);
+        boolean locked = payLock.tryLock(5,10, TimeUnit.SECONDS);
 
         if(locked) {
 

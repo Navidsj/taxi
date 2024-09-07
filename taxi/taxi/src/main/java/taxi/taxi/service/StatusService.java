@@ -26,7 +26,7 @@ public class StatusService {
 
     private Driver getDriver(long id){
         if(driverRepository.existsById(id)){
-            return driverRepository.findById(id).get();
+            return driverRepository.findById(id);
         }else {
             return null;
         }
@@ -49,8 +49,15 @@ public class StatusService {
     }
 
 
+    public ResponseEntity<Object> getLastStatus(User currentUser) {
 
+        ArrayList<Order> orderList = orderRepository.findOrdersByStatus(currentUser.getId(),0,1);
 
+        ArrayList<OrderResponseDto> orderResponseDtos = new ArrayList<>();
 
+        orderList.forEach(order -> {orderResponseDtos.add(OrderMapper.orderMapperToOrderResponseDto(order,getDriver(order.getDriverId())));}
+        );
 
+        return ResponseEntity.ok(orderResponseDtos.get(0));
+    }
 }

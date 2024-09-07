@@ -10,6 +10,7 @@ import taxi.taxi.checker.ValueCheck;
 import taxi.taxi.dto.LoginResponseDto;
 import taxi.taxi.dto.LoginUserDto;
 import taxi.taxi.dto.RegisterUserDto;
+import taxi.taxi.dto.ReportDto;
 import taxi.taxi.model.User;
 import taxi.taxi.repository.UserRepository;
 
@@ -20,13 +21,15 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final RabbitMQProducer rabbitMQProducer;
 
 
-    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, RabbitMQProducer rabbitMQProducer) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.rabbitMQProducer = rabbitMQProducer;
     }
 
     public ResponseEntity<String> signup(RegisterUserDto input){
@@ -45,6 +48,7 @@ public class AuthenticationService {
         user.setPhoneNumber(input.getPhoneNumber());
 
         userRepository.save(user);
+        rabbitMQProducer.sendReport(new ReportDto("user added","userId="+user.getId()).toString());
 
         return ResponseEntity.ok(user.getName() + " jan account shoma sakhte shod.");
     }

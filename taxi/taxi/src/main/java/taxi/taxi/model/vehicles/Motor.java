@@ -1,4 +1,4 @@
-package taxi.taxi.service;
+package taxi.taxi.model.vehicles;
 
 public class Motor extends Vehicle {
     @Override
