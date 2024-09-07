@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import net.bytebuddy.implementation.bind.annotation.Default;
+import org.checkerframework.checker.index.qual.Positive;
 import org.locationtech.jts.geom.Point;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
@@ -19,10 +20,11 @@ public class Order{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "OrderIdSeqGenerator")
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     String status = "not payed";
 
     @Column
+    @Positive
     int price;
 
     @Column
@@ -32,7 +34,7 @@ public class Order{
     Date time;
 
     @Column
-    Long driverId;
+    Long driverId = 0L;
 
     @Column
     Long userId;

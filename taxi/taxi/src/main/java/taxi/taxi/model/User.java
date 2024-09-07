@@ -3,6 +3,7 @@ package taxi.taxi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.checkerframework.checker.index.qual.Positive;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,10 +20,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserIdSeqGenerator")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 20)
     String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true,length = 30)
     String email;
 
     @Column(nullable = false)

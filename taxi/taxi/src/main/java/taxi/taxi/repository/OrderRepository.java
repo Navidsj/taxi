@@ -10,6 +10,6 @@ import java.util.ArrayList;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query(value = "SELECT * FROM safarha Where user_id = :id ORDER BY time DESC LIMIT 10",nativeQuery = true)
-    ArrayList<Order> findOrdersByStatus(Long id);
+    @Query(value = "SELECT * FROM safarha Where user_id = :id ORDER BY time DESC LIMIT :startToEnd OFFSET :startIndex",nativeQuery = true)
+    ArrayList<Order> findOrdersByStatus(Long id,int startIndex,int startToEnd);
 }

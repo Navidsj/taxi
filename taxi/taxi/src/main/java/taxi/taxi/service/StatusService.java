@@ -2,8 +2,12 @@ package taxi.taxi.service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import taxi.taxi.dto.OrderResponseDto;
+import taxi.taxi.mapper.OrderMapper;
+import taxi.taxi.model.Driver;
 import taxi.taxi.model.Order;
 import taxi.taxi.model.User;
+import taxi.taxi.repository.DriverRepository;
 import taxi.taxi.repository.OrderRepository;
 
 import java.util.ArrayList;
@@ -13,17 +17,34 @@ public class StatusService {
 
 
     private final OrderRepository orderRepository;
+    private final DriverRepository driverRepository;
 
-    public StatusService(OrderRepository orderRepository) {
+    public StatusService(OrderRepository orderRepository, DriverRepository driverRepository) {
         this.orderRepository = orderRepository;
+        this.driverRepository = driverRepository;
     }
 
-    public ResponseEntity<String> getStatus(User currentUser) {
+    private Driver getDriver(long id){
+        if(driverRepository.existsById(id)){
+            return driverRepository.findById(id).get();
+        }else {
+            return null;
+        }
+    }
+
+    public ResponseEntity<ArrayList<OrderResponseDto>> getStatus(User currentUser, int startIndex, int endIndex) {
 
 
-        ArrayList<Order> arrayList = orderRepository.findOrdersByStatus(currentUser.getId());
+        ArrayList<Order> orderList = orderRepository.findOrdersByStatus(currentUser.getId(),startIndex,endIndex-startIndex+1);
 
-        return ResponseEntity.ok(arrayList.toString());
+        ArrayList<OrderResponseDto> orderResponseDtos = new ArrayList<>();
+
+        orderList.forEach(order -> {orderResponseDtos.add(OrderMapper.orderMapperToOrderResponseDto(order,getDriver(order.getDriverId())));}
+        );
+
+        System.out.println(orderResponseDtos);
+
+        return ResponseEntity.ok(orderResponseDtos);
 
     }
 

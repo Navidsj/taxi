@@ -21,6 +21,10 @@ public class PaymentService {
     }
 
     public ResponseEntity<String> pay(User currentUser){
+
+        if(currentUser.getOrderId() == 0) {
+            return ResponseEntity.ok("shoma darhal hazer safari nadarid.");
+        }
         Order order = orderRepository.findById(currentUser.getOrderId()).get();
 
         if(currentUser.getBalance() >= order.getPrice()){
@@ -36,5 +40,15 @@ public class PaymentService {
     }
 
 
+    public ResponseEntity<String> charge(User currentUser, int money) {
 
+        if(money < 0 || money > 1000){
+            return ResponseEntity.badRequest().body("Invalid money");
+        }
+
+        currentUser.setBalance(currentUser.getBalance() + money);
+        userRepository.save(currentUser);
+
+        return ResponseEntity.ok("sharzh ba movafaghiyat anjam shod.\nkif pool shoma darhale hazer " + currentUser.getBalance() + " tooman sharzh darad.");
+    }
 }

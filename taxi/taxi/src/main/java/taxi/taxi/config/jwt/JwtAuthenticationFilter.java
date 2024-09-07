@@ -70,6 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request,response);
         } catch(Exception exception){
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED , exception.getMessage());
             handlerExceptionResolver.resolveException(request,response,null,exception);
         }
     }

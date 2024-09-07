@@ -4,11 +4,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import taxi.taxi.dto.OrderResponseDto;
+import taxi.taxi.model.Order;
 import taxi.taxi.model.User;
 import taxi.taxi.repository.UserRepository;
 import taxi.taxi.service.JwtService;
 import taxi.taxi.service.PaymentService;
 import taxi.taxi.service.StatusService;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 @RestController
 public class StatusController {
@@ -25,12 +30,12 @@ public class StatusController {
     }
 
     @GetMapping("/orders/status")
-    public ResponseEntity<String> getStatus(@RequestHeader("Authorization") String header) {
+    public ResponseEntity<ArrayList<OrderResponseDto>> getStatus(@RequestHeader("Authorization") String header) {
 
         String token = header.substring(7);
         User currentUser = userRepository.findByEmail(jwtService.extractUsername(token)).get();
 
-        return statusService.getStatus(currentUser);
+        return statusService.getStatus(currentUser,0,10);
     }
 
 

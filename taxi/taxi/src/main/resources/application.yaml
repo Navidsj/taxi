@@ -23,18 +23,25 @@ spring:
             dialect:
               postgis: PostgisDialect
 
+
 secret:
   key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
 
-
 rabbitmq:
-  queue:
-    name: new-queue
   exchange:
     name: new-exchange
-  routing:
-    key:
-      name: routing-key
+  reporter:
+    queue:
+      name: new-queue-reporter
+    routing:
+      key:
+        name: report-routing-key
+  message:
+    queue:
+      name: new-queue-message
+    routing:
+      key:
+        name: message-routing-key
 
 logging:
   level:

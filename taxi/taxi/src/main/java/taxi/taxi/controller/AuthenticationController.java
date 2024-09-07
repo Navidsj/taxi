@@ -2,6 +2,7 @@ package taxi.taxi.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,32 +32,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> register(@RequestBody RegisterUserDto registerUserDto) throws InterruptedException, JsonProcessingException {
-
-        User registerdUser = authenticationService.signup(registerUserDto);
-
-        if(registerdUser == null) {
-            return ResponseEntity.badRequest().body("In email ghablan estefade shode ast!!!");
-        }
-
-        return ResponseEntity.ok(registerdUser.getName() + " jan account shoma sakhte shod.");
+    public ResponseEntity<String> register(@RequestBody RegisterUserDto registerUserDto) throws InterruptedException, JsonProcessingException, BadRequestException {
+        return authenticationService.signup(registerUserDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> authenticate(@RequestBody LoginUserDto loginUserDto) throws JsonProcessingException {
-
-
-        User authonticatedUser = authenticationService.authenticate(loginUserDto);
-
-        String jwtToken = jwtService.generateToken(authonticatedUser);
-
-        LoginResponseDto loginResponse = new LoginResponseDto();
-
-        loginResponse.setToken(jwtToken);
-        loginResponse.setExpiresIn(jwtService.getJwtExpiration());
-
-        return ResponseEntity.ok(loginResponse);
-
+        return authenticationService.authenticate(loginUserDto);
     }
 
 
