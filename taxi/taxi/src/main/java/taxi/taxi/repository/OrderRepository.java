@@ -3,7 +3,7 @@ package taxi.taxi.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import taxi.taxi.model.Order;
+import taxi.taxi.model.order.Order;
 
 import java.util.ArrayList;
 

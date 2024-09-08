@@ -2,12 +2,10 @@ package taxi.taxi.mapper;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import taxi.taxi.dto.OrderDto;
-import taxi.taxi.dto.OrderResponseDto;
-import taxi.taxi.model.Driver;
-import taxi.taxi.model.Order;
-import taxi.taxi.repository.DriverRepository;
+import taxi.taxi.dto.order.OrderDto;
+import taxi.taxi.dto.order.OrderResponseDto;
+import taxi.taxi.model.drivers.Driver;
+import taxi.taxi.model.order.Order;
 
 import java.util.Date;
 

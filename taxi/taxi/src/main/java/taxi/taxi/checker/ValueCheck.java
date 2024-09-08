@@ -2,12 +2,16 @@ package taxi.taxi.checker;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import taxi.taxi.service.GetVehicles;
+import taxi.taxi.service.driver.GetVehicles;
 
 public class ValueCheck {
 
 
-    public static ResponseEntity<String> checkUser(String name, String email, String password){
+    public static ResponseEntity<String> checkUser(String name, String email,String phoneNumber, String password){
+
+        if(checkPhoneNumber(phoneNumber) != null){
+            return ResponseEntity.badRequest().body("Phone number is incorrect");
+        }
         if(name.length() < 3){
             return ResponseEntity.badRequest().body("Name is too short");
         }

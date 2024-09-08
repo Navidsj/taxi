@@ -1,7 +1,7 @@
 package taxi.taxi.mapper;
 
-import taxi.taxi.dto.DriverResponseDto;
-import taxi.taxi.model.Driver;
+import taxi.taxi.dto.driver.DriverResponseDto;
+import taxi.taxi.model.drivers.Driver;
 
 public class DriverMapper {
 
